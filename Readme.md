@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Алексей Базылев](https://up.htmlacademy.ru/nodejs-api-individual/2/user/2351149).
-* Наставник: `Неизвестно`.
+* Наставник: [Глеб Алфутин](https://htmlacademy.ru/profile/id2668675).
 
 ---
 
