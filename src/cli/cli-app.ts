@@ -8,8 +8,8 @@ export class CliApp {
 
   constructor(private readonly defaultCommand: string = '--help') {}
 
-  public registerCommand(commandList: Command[]): void {
-    commandList.forEach((command) => {
+  public registerCommand(commands: Command[]): void {
+    commands.forEach((command) => {
       if(Object.hasOwn(this.commands, command.getName())) {
         throw new Error(`Command ${command.getName()} is already registered`);
       }

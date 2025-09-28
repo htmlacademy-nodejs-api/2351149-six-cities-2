@@ -32,28 +32,36 @@ export class TSVFileReader {
         roomNumber: Number.parseInt(roomNumber, 10),
         guestNumber: Number.parseInt(guestNumber, 10),
         price: Number.parseInt(price, 10),
-        facilities: facilities.split(';').map((facility) => {
-          const facilityKey = Object.keys(FacilityType).find((key) => FacilityType[key as keyof typeof FacilityType] === facility);
-          return facilityKey ? FacilityType[facilityKey as keyof typeof FacilityType] : undefined;
-        }).filter((facility): facility is FacilityType => facility !== undefined),
-        author: ((): Author => {
-          const [userName, email, avatar, password, userType] = author.split(';');
-          return {
-            name: userName,
-            email,
-            avatar,
-            password,
-            userType: UserType[userType as UserType],
-          };
-        })(),
+        facilities: this.parseFacilities(facilities),
+        author: this.parseAuthor(author),
         commentsCount: Number.parseInt(commentsCount, 10),
-        coordinates: ((): Coordinates => {
-          const [longitude, latitude] = coordinates.split(';');
-          return {
-            longitude: Number(longitude),
-            latitude: Number(latitude)
-          };
-        })()
+        coordinates: this.parseCoordinates(coordinates)
       }));
+  }
+
+  private parseFacilities(facilitiesRaw: string): FacilityType[] {
+    return facilitiesRaw.split(';').map((facility) => {
+      const facilityKey = Object.keys(FacilityType).find((key) => FacilityType[key as keyof typeof FacilityType] === facility);
+      return facilityKey ? FacilityType[facilityKey as keyof typeof FacilityType] : undefined;
+    }).filter((facility): facility is FacilityType => facility !== undefined);
+  }
+
+  private parseAuthor(authorRaw: string): Author {
+    const [userName, email, avatar, password, userType] = authorRaw.split(';');
+    return {
+      name: userName,
+      email,
+      avatar,
+      password,
+      userType: UserType[userType as UserType],
+    };
+  }
+
+  private parseCoordinates(coordinatesRaw: string): Coordinates {
+    const [longitude, latitude] = coordinatesRaw.split(';');
+    return {
+      longitude: Number(longitude),
+      latitude: Number(latitude)
+    };
   }
 }
